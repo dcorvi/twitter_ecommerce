@@ -1,0 +1,42 @@
+{% import 'bootstrap/wtf.html' as wtf %}
+{% extends 'base.html' %}
+
+
+{% block app_content %}
+  <div class="container">
+    <main>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <img src="{{ user.url }}" alt="Placehold Image" class="card-img">
+            <div class="card-title">@{{ user.username }}</div>
+            <div class="card-subtitle">{{ user.first_name }} {{ user.last_name }}</div>
+            <div class="card-text">
+              <p>{{ user.bio }}</p>
+            </div>
+            <button class="btn btn-primary">Follow</button>
+          </div>
+        </div> <!-- ends col 4 -->
+        <div class="col-md-8">
+          {% if current_user.username == user.username %}
+          <div class="card">
+            {{ wtf.quick_form(form) }}
+          </div> <!-- ends card for form -->
+          {% endif %}
+
+          <!-- TODO: Loop over this card for all tweets -->
+          {% for post in user.posts[::-1] %}
+          <div class="card">
+            <img src="http://placehold.it/50x50" alt="Profile Pic" class="pic">
+            <div class="date">{{ post.date_posted.date() }}</div>
+            <div class="tweet">
+              <p>{{ post.tweet }}</p>
+            </div>
+          </div> <!-- ends card for tweet -->
+          {% endfor %}
+
+        </div> <!-- ends col 8 -->
+      </div><!-- ends row -->
+    </main>
+  </div> <!-- ends container -->
+{% endblock %}
